@@ -11,6 +11,7 @@ botonIniciar.addEventListener("click", function(event){
     var palabraElejida = elejirPalabra(palabrasSecretas);
     dibujarGuiones(palabraElejida);
     verificarTeclaPresionada(palabraElejida);
+    
 
 });
 
@@ -44,7 +45,9 @@ var letrasIngresadas = [""];
 function verificarTeclaPresionada(palabraElejida){
 
     document.addEventListener("keydown", function(event){
-            //event.preventDefault();
+        event.preventDefault();
+
+       //Comprobacion para saber que todavia no haya perdido o ganado.
         if (errores < 7 && aciertos < palabraElejida.length){
 
             var letraIngresada = event.key.toUpperCase();
@@ -65,14 +68,23 @@ function verificarTeclaPresionada(palabraElejida){
 
                         borrarMensaje();
                         verificarLetraCorrecta(letraIngresada, palabraElejida);
-                        //console.log(aciertos);
-                        console.log(errores);
                     }
                 } else {
 
                     borrarMensaje();
                     dibujarMensaje("Recuerda, solo se permiten letras.", "red") 
                 } 
+        }  
+
+        //En caso de haber perdido o ganado lanzar su correspondiente mensaje.
+        if (errores == 7){
+
+            borrarMensaje();
+            dibujarMensaje("¡Haz perdido!", "red");
+        } if(aciertos == palabraElejida.length) {
+
+            borrarMensaje();
+            dibujarMensaje("¡Haz ganado! Felicitaciones", "green");
         }
     }); 
     
@@ -147,19 +159,4 @@ function verificarTeclaRepetida(letraIngresada, letrasIngresadas){
     }
 
     return repetida;
-}
-
-function comprobarFinPerdio(){
-
-    if (errores > 6){
-        
-        return true;
-    }
-}
-
-function comprobarFinGano(){    
-    if (aciertos == palabraElejida.length){
-
-        return true;
-    }
 }
