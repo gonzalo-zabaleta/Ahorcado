@@ -1,17 +1,23 @@
 var palabrasSecretas = ["ALURA", "GONZALO", "ORACLE", "TECNOLOGIA", "EDUCACION", "DISCORD"];
 var errores = 0;
 var aciertos = 0;
+var palabraElejida = "";
+var palabraAntigua = "";
+var letrasIngresadas = [""];
 
 var botonIniciar = document.getElementById("iniciar-juego");
-botonIniciar.addEventListener("click", function(event){
+botonIniciar.addEventListener("click", function(evt){
 
-    event.preventDefault();
+    evt.preventDefault();
+
+    errores = 0;
+    aciertos = 0;
+    letrasIngresadas = [""];
 
     crearTablero();
-    var palabraElejida = elejirPalabra(palabrasSecretas);
+    palabraElejida = elejirPalabra(palabrasSecretas);
     dibujarGuiones(palabraElejida);
-    verificarTeclaPresionada(palabraElejida);
-    
+    verificarTeclaPresionada();
 
 });
 
@@ -23,9 +29,9 @@ function elejirPalabra(palabrasSecretas){
 
     while (validador == 1){
 
-    var palabraElejida = palabrasSecretas[Math.round(Math.random()*palabrasSecretas.length)];
+    var palabra = palabrasSecretas[Math.floor(Math.random()*palabrasSecretas.length)];
 
-        if (palabraElejida == ""){
+        if (palabra == "" || palabraAntigua == palabra){
 
             validador = 1;
 
@@ -36,16 +42,15 @@ function elejirPalabra(palabrasSecretas){
 
     }
 
-    return palabraElejida;
+    palabraAntigua = palabra;
+    return palabra;
 }
 
 
 // Función para verificar si la letra presionada es valida.
-var letrasIngresadas = [""];
-function verificarTeclaPresionada(palabraElejida){
+function verificarTeclaPresionada(){
 
-    document.addEventListener("keydown", function(event){
-        event.preventDefault();
+        document.addEventListener("keydown", function teclaPresionada(event){
 
        //Comprobacion para saber que todavia no haya perdido o ganado.
         if (errores < 7 && aciertos < palabraElejida.length){
@@ -81,13 +86,24 @@ function verificarTeclaPresionada(palabraElejida){
 
             borrarMensaje();
             dibujarMensaje("¡Haz perdido!", "red");
+            divPrimero.style.display = "block";
+            divSegundo.style.display = "block"
+            botonIniciar.textContent = "Jugar de nuevo";
+
+           document.removeEventListener("keydown", teclaPresionada);
+
         } if(aciertos == palabraElejida.length) {
 
             borrarMensaje();
             dibujarMensaje("¡Haz ganado! Felicitaciones", "green");
+            divPrimero.style.display = "block";
+            divSegundo.style.display = "block"
+            botonIniciar.textContent = "Jugar de nuevo";
+
+            document.removeEventListener("keydown", teclaPresionada);
+
         }
-    }); 
-    
+    });
 }
     
 

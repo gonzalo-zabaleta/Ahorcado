@@ -2,13 +2,14 @@ var canvasTablero = document.getElementById("ahorcado");
 var pincel = canvasTablero.getContext("2d");
 var divPrimero = document.getElementById("div-primero");
 var divSegundo = document.getElementById("div-segundo");
-var mensaje = document.getElementById("mostrar-mensaje");
 
+//Funcion que esconde los botones y crea el canvas con la base de la horca
 function crearTablero(){
 
     divPrimero.style.display = "none";
     divSegundo.style.display = "none";
 
+    pincel.clearRect(0, 0, 1200, 800);
     pincel.fillStyle = "black"
     pincel.lineWidth = 4;
     pincel.beginPath();
@@ -18,26 +19,21 @@ function crearTablero(){
     pincel.lineTo(300, 500);
     pincel.stroke();
     pincel.closePath(); 
-
-
-   // var palabraElejida = elejirPalabra(palabrasSecretas);
-   // dibujarGuiones(palabraElejida);
-
 }
 
 
-//Función que muestra los guiones de la palabra a adivinar
+//Función que muestra los guiones de la palabra a adivinar.
 function dibujarGuiones(palabra){
-    for(i=0; i<palabra.length;i++){
+    for(var i=0; i<palabra.length;i++){
         pincel.beginPath();
         pincel.moveTo ((535 + i * 50), 550); 
         pincel.lineTo((565 + i * 50), 550);
-        pincel.closePath();
         pincel.stroke();
+        pincel.closePath();
     }                               
 }
 
-
+//Funcion para dibujar la letra correcta.
 function dibujarLetraCorrecta (letraIngresada, posicion){
 
     pincel.beginPath();
@@ -48,6 +44,7 @@ function dibujarLetraCorrecta (letraIngresada, posicion){
 
 }
 
+//Funcion para dibujar la letra inconrrecta.
 function dibujarLetraIncorrecta(letraIngresada, errores){
 
     pincel.beginPath();
@@ -157,7 +154,7 @@ function dibujarMensaje(frase, color){
     pincel.beginPath();
     pincel.fillStyle = color;
     pincel.font = "40pt comic";
-    pincel.fillText(frase, 450, 200);
+    pincel.fillText(frase, 300, 200);
     pincel.closePath();
 }
 
